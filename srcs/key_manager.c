@@ -1,10 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_manager.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/11 15:35:37 by gemartel          #+#    #+#             */
+/*   Updated: 2024/01/15 08:42:35 by gemartel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/fdf.h"
 
-int		is_key(int key)
+int	on_destroy(t_fdf **matrix)
 {
-	return (key == UP || key == DOWN || key == LEFT || key == RIGHT || key == SPACE
-	|| key == MINUS || key == PLUS || key == STAR || key == DIV
-	|| key == UP_Z || key == DOWN_Z);
+	mlx_destroy_window(DATA.mlx_ptr, DATA.win_ptr);
+	mlx_destroy_display(DATA.mlx_ptr);
+	free(DATA.mlx_ptr);
+	free_matrix(matrix, 0);
+	exit (EXIT_SUCCESS);
+	return (0);
+}
+
+int	is_key(int key)
+{
+	return (key == UP || key == DOWN || key == LEFT || key == RIGHT
+		|| key == SPACE || key == MINUS || key == PLUS || key == STAR
+		|| key == DIV || key == UP_Z || key == DOWN_Z);
 }
 
 void	do_key(int key, t_fdf **matrix)
@@ -29,22 +51,22 @@ void	do_key(int key, t_fdf **matrix)
 		DATA.angle += 0.05;
 	if (key == DIV)
 		DATA.angle -= 0.05;
-	if (key == SPACE)
-	{
-		if (DATA.is_isometric == 1)
-			DATA.is_isometric = 0;
-		else
-			DATA.is_isometric = 1;
-	}
 }
 
-int		key_handler(int key, t_fdf **matrix)
+int	key_handler(int key, t_fdf **matrix)
 {
-	printf("key = %d\n", key);
+	ft_printf("key = %d\n", key);
 	if (is_key(key))
 	{
 		mlx_clear_window(DATA.mlx_ptr, DATA.win_ptr);
 		do_key(key, matrix);
+		if (key == SPACE)
+		{
+			if (DATA.is_isometric == 1)
+				DATA.is_isometric = 0;
+			else
+				DATA.is_isometric = 1;
+		}
 		print_menu(DATA);
 		draw_handler(matrix);
 	}

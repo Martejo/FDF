@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/11 15:35:08 by gemartel          #+#    #+#             */
+/*   Updated: 2024/01/15 08:43:03 by gemartel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/fdf.h"
 
 void	print_menu(t_fdf data)
 {
-	char *menu;
+	char	*menu;
 
 	menu = "up, down, left, right: move picture";
 	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 10, 0x03fc35, menu);
@@ -10,8 +22,6 @@ void	print_menu(t_fdf data)
 	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 25, 0x03fc35, menu);
 	menu = "Page up, pager down: z-scale; *, /: rotation";
 	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 40, 0x03fc35, menu);
-	menu = "f: full screen mode";
-	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 55, 0x03fc35, menu);
 }
 
 void	bresenham(t_fdf a, t_fdf b, t_fdf *data)
@@ -28,11 +38,11 @@ void	bresenham(t_fdf a, t_fdf b, t_fdf *data)
 	step_y /= max;
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, 250);
+		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, a.color);
 		a.x += step_x;
 		a.y += step_y;
 		if (a.x > data->win_x || a.y > data->win_y || a.y < 0 || a.x < 0)
-			break;
+			break ;
 	}
 }
 
@@ -43,7 +53,7 @@ void	draw_handler(t_fdf **matrix)
 
 	print_menu(DATA);
 	y = 0;
-	while (matrix[y] != NULL)
+	while (matrix[y])
 	{
 		x = 0;
 		while (1)
@@ -53,10 +63,9 @@ void	draw_handler(t_fdf **matrix)
 			if (!matrix[y][x].is_last)
 				bresenham(matrix[y][x], matrix[y][x + 1], &DATA);
 			if (matrix[y][x].is_last)
-				break;
+				break ;
 			x++;
 		}
 		y++;
 	}
-	
 }

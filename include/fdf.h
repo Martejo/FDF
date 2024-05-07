@@ -1,14 +1,26 @@
-#ifndef FDF_H
-#define FDF_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/11 16:36:53 by gemartel          #+#    #+#             */
+/*   Updated: 2024/01/11 16:38:32 by gemartel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../minilibx-linux/mlx.h"
-#include "../minilibx-linux/mlx_int.h"
-#include "../libft/libft.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#ifndef FDF_H
+# define FDF_H
+
+# include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx_int.h"
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <math.h>
 
 # define DATA matrix[0][0]
 
@@ -32,7 +44,6 @@ enum
 	FOUR = 65430,
 	FIVE = 65437,
 	SIX = 65432
-
 };
 
 enum
@@ -67,14 +78,14 @@ typedef struct s_fdf
 void	ft_error(char	*msg);
 void	error_handler(int error, t_fdf **matrix, int y);
 void	free_matrix(t_fdf **matrix, int y);
+void	free2d(char **str);
 
 /**Init_matrix**/
 t_fdf	**init_matrix(char *filename);
 
 /**Matrix_utils**/
 int		words_counter(char const *str, char c);
-int	get_height(char *filename);
-int	get_width(char *filename);
+void	get_color(t_fdf **matrix, char **values, int y, int x);
 
 /**Draw_map**/
 void	draw_handler(t_fdf **matrix);
@@ -92,7 +103,5 @@ int		key_handler(int key, t_fdf **matrix);
 
 /**Window_manager**/
 void	new_window(int key, t_fdf **matrix);
-
-
-int	on_destroy(t_fdf **matrix);
+int		on_destroy(t_fdf **matrix);
 #endif

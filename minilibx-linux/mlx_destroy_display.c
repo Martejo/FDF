@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   mlx_destroy_display.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mg <mg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 13:20:57 by gemartel          #+#    #+#             */
-/*   Updated: 2024/01/11 15:48:56 by gemartel         ###   ########.fr       */
+/*   Created: 2020/10/03 18:56:35 by mg                #+#    #+#             */
+/*   Updated: 2020/10/04 01:55:35 by mg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(char c)
+#include "mlx_int.h"
+
+int	mlx_destroy_display(t_xvar *xvar)
 {
-	if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\r' || c == '\f' || c == '\v')
-		return (1);
-	return (0);
+	XCloseDisplay(xvar->display);
 }

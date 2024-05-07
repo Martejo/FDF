@@ -55,6 +55,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
 long	ft_atol(const char *s);
+int		ft_atoi_base(const char *nptr, char *base, int size_base);
 /**********str**********/
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -82,7 +83,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
-int	ft_isspace(char c);
+int		ft_isspace(char c);
 
 /**list**/
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_matrix.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/11 15:35:30 by gemartel          #+#    #+#             */
+/*   Updated: 2024/01/11 15:38:18 by gemartel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/fdf.h"
 
 int	filling_matrix(char *line, t_fdf **matrix, int y)
@@ -8,10 +20,12 @@ int	filling_matrix(char *line, t_fdf **matrix, int y)
 	values = ft_split(line, ' ');
 	if (!values)
 		return (MALLOC_E);
+	free(line);
 	x = 0;
 	while (values[x] != NULL)
 	{
 		matrix[y][x].z = ft_atoi(values[x]);
+		get_color(matrix, values, y, x);
 		matrix[y][x].x = x;
 		matrix[y][x].y = y;
 		matrix[y][x].is_last = 0;
@@ -94,10 +108,7 @@ t_fdf	**init_matrix(char *filename)
 	{
 		octets = get_next_line(fd, &line);
 		if (octets > 0)
-		{
 			octets = filling_matrix(line, matrix, y++);
-			free(line);
-		}
 	}
 	if (line)
 		free(line);

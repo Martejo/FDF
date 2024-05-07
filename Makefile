@@ -1,7 +1,8 @@
 NAME = FDF
 
 MLX_FLAGS = -L minilibx-linux -lmlx_Linux -lmlx -lXext -lX11
-
+MLX_DIR	= minilibx-linux
+MLX_A = minilibx-linux/libmlx_Linux.a
 CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra
@@ -19,28 +20,44 @@ SRCS =  srcs/main.c \
 
 OBJS    = ${SRCS:.c=.o}
 
-LIBFT   = make all -C libft/
+LIBFT_DIR = libft
+LIBFT_A = libft/libft.a
+_CLEAR	= \033[0K\r\c
+_OK	= [\033[32mOK\033[0m]
 
-all : $(NAME)
+all : $(LIBFT_A) $(MLX_A) $(NAME)
+
+$(LIBFT_A): libft/libft.h
+	@echo "[..] libft... compiling \r\c"
+	@$(MAKE) -C $(LIBFT_DIR) -s
+	@echo "$(_CLEAR)"
+
+$(MLX_A):
+	@echo "[..] mlx... compiling \r\c"
+	@$(MAKE) -C $(MLX_DIR) -s
+	@echo "$(_CLEAR)"
+
+${NAME}: ${OBJS} $(LIBFT_A)
+	@${CC} ${CFLAGS} -g3 -I include -I libft/ -o $@ $^ $(MLX_FLAGS) -Llibft -lft -lm
+	@echo "$(_OK) $(NAME) compiled"
 
 %.o: %.c  include/fdf.h libft/libft.h
-	@${CC} ${CFLAGS} -g3 -Iinclude -Ilibft/ -c $< -o $@
-
-${NAME}: ${OBJS}
-	${CC} ${CFLAGS} -g3 -Iinclude -Ilibft/  -o $@ $^ $(MLX_FLAGS) libft/libft.a -lm
-
-
-fclean : clean
-		$(RM) $(NAME)
-		@make -s fclean -C libft/
+	@echo "[..] $(NAME_SHORT)... compiling $*.c\r\c"
+	@${CC} ${CFLAGS} -g3 -Iinclude -Ilibft/ -Iminilibx-linux/ -c $< -o $@
+	@echo "$(_CLEAR)"
 
 clean :
-		$(RM) $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR) clean -s
+	@$(MAKE) -C $(MLX_DIR) clean -s
+	@$(RM) $(OBJS)
+	@$(RM) $(OBJS_BONUS)
+
+fclean : clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean -s
+	@$(RM) $(NAME)
+	@$(RM) $(NAME_BONUS)
 
 re : fclean all
-
-libft:
-		@make -s all -C libft/
 
 .PHONY: all clean fclean re libft
 

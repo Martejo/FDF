@@ -25,6 +25,7 @@ SRCS	=	\
 			nbr/ft_atoi.c\
 			nbr/ft_itoa.c\
 			nbr/ft_atol.c\
+			nbr/ft_atoi_base.c\
 			\
 			others/ft_isprint.c\
 			others/ft_isdigit.c\

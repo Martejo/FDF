@@ -6,7 +6,7 @@
 /*   By: gemartel <gemartel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:59:09 by gemartel          #+#    #+#             */
-/*   Updated: 2023/12/07 16:17:04 by gemartel         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:50:13 by gemartel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,32 +70,32 @@ int	update_gnl(char *dest, char *src, char **str)
 	return (1);
 }
 
-ssize_t read_line(int fd, char **line, char *buffer)
+ssize_t	read_line(int fd, char **line, char *buffer)
 {
-	ssize_t byte_read;
-	size_t line_len;
+	ssize_t	byte_read;
+	size_t	line_len;
 
 	byte_read = 1;
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
-			return -1; // Retourner une erreur
+			return (-1);
 		buffer[byte_read] = '\0';
 		*line = extract_line(*line, buffer);
 		if (*line == NULL)
-			return (-2); // Retourner une erreur
+			return (-2);
 		line_len = check_new_line(*line);
 		if ((line_len > 0 || byte_read == 0) && (*line)[0] != '\0')
-			return (line_len); // Retourner le nombre d'octets lus
+			return (line_len);
 	}
-	return (0); // Fin de fichier
+	return (0);
 }
 
 ssize_t	get_next_line(int fd, char **line)
 {
-	static t_fd buffer_memory[MAX_FD];
-	char *buffer;
+	static t_fd	buffer_memory[MAX_FD];
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || MAX_FD < 1 || !line)
 		return (-1);
@@ -108,6 +108,6 @@ ssize_t	get_next_line(int fd, char **line)
 	if (update_gnl(buffer, &buffer[check_new_line(buffer)], line) < 0)
 		return (-2);
 	if (check_new_line(*line) > 0)
-		return (gnl_ft_strlen(*line)); // Retourner le nombre d'octets lus
+		return (gnl_ft_strlen(*line));
 	return (read_line(fd, line, buffer));
 }
